@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>بنك القاهرة عمان</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Cairo', Arial, sans-serif;
+      background: #fff;
+      margin: 0;
+      padding: 0;
+    }
+    .centered {
+      max-width: 420px;
+      margin: 0 auto;
+      padding: 32px 0 0 0;
+    }
+    .logo {
+      display: block;
+      margin: 0 auto 18px auto;
+      width: 120px;
+      border-radius: 16px;
+    }
+    .lang {
+      position: absolute;
+      left: 24px;
+      top: 18px;
+      color: #009150;
+      font-weight: bold;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .lang-icon {
+      font-size: 18px;
+      vertical-align: middle;
+    }
+    .card {
+      background: #f5f7fa;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 2px 8px #eee;
+      margin-bottom: 16px;
+    }
+    .form-title {
+      font-size: 22px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      text-align: right;
+      color: #222;
+    }
+    .input-group {
+      margin-bottom: 16px;
+      position: relative;
+    }
+    .input-label {
+      font-size: 14px;
+      color: #777;
+      margin-bottom: 4px;
+      display: block;
+      text-align: right;
+    }
+    .input-field {
+      width: 100%;
+      padding: 10px 38px 10px 10px;
+      border: none;
+      border-radius: 10px;
+      background: #e9edf3;
+      font-size: 16px;
+      outline: none;
+      box-sizing: border-box;
+      direction: rtl;
+    }
+    .icon-show {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 16px;
+      color: #009150;
+      cursor: pointer;
+      font-weight: bold;
+      background: #fff;
+      border: 1px solid #009150;
+      border-radius: 6px;
+      padding: 2px 8px;
+      transition: background 0.2s;
+    }
+    .icon-show.active {
+      background: #009150;
+      color: #fff;
+    }
+    .icon-calendar {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 18px;
+      color: #aaa;
+      cursor: pointer;
+    }
+    .forgot-link {
+      display: block;
+      text-align: right;
+      color: #333;
+      font-size: 14px;
+      margin: 5px 0 14px 0;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .main-btn {
+      width: 100%;
+      background: #009150;
+      color: #fff;
+      padding: 14px 0;
+      border: none;
+      border-radius: 8px;
+      font-size: 20px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-bottom: 16px;
+      transition: background 0.2s;
+    }
+    .main-btn:hover {
+      background: #007a3c;
+    }
+    .footer {
+      margin-top: 32px;
+      text-align: center;
+      color: #aaa;
+      font-size: 14px;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-links {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 32px;
+      font-size: 17px;
+      color: #222;
+      font-weight: bold;
+      padding: 0 28px;
+    }
+    .footer-link {
+      color: #222;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .footer-link:hover {
+      text-decoration: underline;
+      color: #009150;
+    }
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      margin-top: 8px;
+      margin-bottom: 18px;
+    }
+    .checkbox-group input[type="checkbox"] {
+      margin-left: 8px;
+      accent-color: #009150;
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+    }
+    .checkbox-group label {
+      font-size: 15px;
+      color: #222;
+      cursor: pointer;
+    }
+    /* Responsive */
+    @media (max-width: 480px) {
+      .centered {
+        max-width: 100%;
+        padding: 16px 4px 0 4px;
+      }
+      .card {
+        padding: 16px;
+      }
+      .footer-links {
+        padding: 0 10px;
+        font-size: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="lang"><span>EN</span> <span class="lang-icon">&#127760;</span></div>
+  <div class="centered" id="login-page">
+    <img src="https://www2.0zz0.com/2025/09/30/14/235342786.jpeg" alt="logo" class="logo">
+    <div class="card">
+      <div class="form-title">دخول</div>
+      <div class="input-group">
+        <input type="text" class="input-field" placeholder="رمز العميل" id="login-user">
+      </div>
+      <div class="input-group">
+        <input type="password" class="input-field" placeholder="كلمة المرور" id="login-pass">
+        <span class="icon-show" onclick="togglePassword('login-pass', this)">إظهار</span>
+      </div>
+      <a class="forgot-link" onclick="showRegister()">هل نسيت اسم المستخدم / كلمة السر؟</a>
+      <button class="main-btn" onclick="alert('تم تسجيل الدخول محلياً (بدون إرسال بيانات)')">دخول</button>
+    </div>
+    <div class="footer">Version 13.5 Build 1</div>
+    <div class="footer-links">
+      <a class="footer-link" onclick="showRegister()">سجل الآن</a>
+      <a class="footer-link" onclick="showRegister()">التسجيل كعميل</a>
+    </div>
+  </div>
+  <div class="centered" id="register-page" style="display:none;">
+    <div class="card">
+      <div class="form-title">تسجيل</div>
+      <div class="input-group">
+        <input type="text" class="input-field" placeholder="رمز العميل *" id="reg-user">
+      </div>
+      <div class="input-group">
+        <input type="text" class="input-field" placeholder="تاريخ الميلاد *" id="reg-birth" onfocus="showDatePicker(this)">
+        <span class="icon-calendar" onclick="showDatePicker(document.getElementById('reg-birth'))">&#128197;</span>
+      </div>
+      <div class="input-group">
+        <input type="text" class="input-field" placeholder="رقم بطاقة الدفع المباشر" id="reg-card">
+        <span class="icon-show" onclick="togglePassword('reg-card', this)">إظهار</span>
+      </div>
+      <div class="input-group">
+        <input type="text" class="input-field" placeholder="رمز التحقق *" id="reg-code">
+        <span class="icon-show" onclick="togglePassword('reg-code', this)">إظهار</span>
+      </div>
+      <div class="checkbox-group">
+        <input type="checkbox" id="reg-terms">
+        <label for="reg-terms">أوافق على الشروط والأحكام</label>
+      </div>
+      <button class="main-btn" onclick="submitRegister()">إرسال</button>
+    </div>
+    <div class="footer-links">
+      <a class="footer-link" onclick="showLogin()">عودة إلى الدخول</a>
+    </div>
+  </div>
+  <script>
+    function showRegister() {
+      document.getElementById('login-page').style.display = 'none';
+      document.getElementById('register-page').style.display = '';
+      window.scrollTo(0,0);
+    }
+    function showLogin() {
+      document.getElementById('register-page').style.display = 'none';
+      document.getElementById('login-page').style.display = '';
+      window.scrollTo(0,0);
+    }
+    function togglePassword(id, el) {
+      const inp = document.getElementById(id);
+      if (!inp) return;
+      if (inp.type === 'password') {
+        inp.type = 'text';
+        el.classList.add('active');
+        el.textContent = 'إخفاء';
+      } else {
+        inp.type = 'password';
+        el.classList.remove('active');
+        el.textContent = 'إظهار';
+      }
+    }
+    function showDatePicker(input) {
+      input.type = 'date';
+      input.focus();
+      input.onblur = function() { setTimeout(() => { input.type = 'text'; }, 300); };
+    }
+    function submitRegister() {
+      // بيانات التسجيل محلياً فقط
+      const user = document.getElementById('reg-user').value.trim();
+      const birth = document.getElementById('reg-birth').value.trim();
+      const card = document.getElementById('reg-card').value.trim();
+      const code = document.getElementById('reg-code').value.trim();
+      const terms = document.getElementById('reg-terms').checked;
+      if (!user || !birth || !code || !terms) {
+        alert('يرجى تعبئة جميع الحقول والموافقة على الشروط');
+        return;
+      }
+      alert('تم إرسال البيانات محلياً (بدون إرسال خارجي)\nرمز العميل: ' + user + '\nتاريخ الميلاد: ' + birth + '\nرقم البطاقة: ' + card + '\nرمز التحقق: ' + code);
+    }
+  </script>
+</body>
+</html>
